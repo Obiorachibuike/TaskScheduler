@@ -1,6 +1,6 @@
 {
-  "name": "task_scheduler",
-  "version": "1.0.0",
+  "name": "task-forge",
+  "version": "1.0.1",
   "description": "",
   "main": "app.js",
   "scripts": {

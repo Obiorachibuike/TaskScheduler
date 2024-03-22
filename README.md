@@ -1,56 +1,59 @@
-Sure, here's a simple README file for your `TaskScheduler` class:
 
----
+# task-forge
 
-# TaskScheduler
-
-TaskScheduler is a simple Node.js class that helps you schedule tasks using cron expressions.
+task-forge is a simple Node.js module for scheduling and managing recurring tasks using the node-schedule library.
 
 ## Installation
 
+To install the task-forge module, run the following command:
 
-```
-npm install node-schedule
+```bash
+npm install task-forge
 ```
 
 ## Usage
 
 ```javascript
-const TaskScheduler = require('./TaskScheduler');
+const TaskScheduler = require('task-forge');
 
-// Create a new instance of TaskScheduler
-const scheduler = new TaskScheduler();
+// Create an instance of TaskScheduler
+const taskScheduler = new TaskScheduler();
 
-// Schedule a task
-const scheduledTask = scheduler.scheduleTask('0 * * * *', () => {
-  console.log('This task runs every hour.');
+// Schedule a task to run every minute
+const scheduledTask = taskScheduler.scheduleTask('* * * * *', () => {
+  console.log('Task executed at:', new Date());
 });
 
-// Delete a task
-scheduler.deleteTask(scheduledTask);
+// Delete a task after 5 minutes
+setTimeout(() => {
+  taskScheduler.deleteTask(scheduledTask);
+  console.log('Task deleted at:', new Date());
+}, 5 * 60 * 1000);
 
-// Delete all tasks
-scheduler.deleteAllTask();
+// Schedule another task to run every 5 seconds
+const anotherScheduledTask = taskScheduler.scheduleTask('*/5 * * * * *', () => {
+  console.log('Another task executed at:', new Date());
+});
+
+// Delete all tasks after 1 minute
+setTimeout(() => {
+  taskScheduler.deleteAllTask();
+  console.log('All tasks deleted at:', new Date());
+}, 1 * 60 * 1000);
 ```
 
-## API
+## Features
 
-### `scheduleTask(cronExpression, taskFunction)`
+- Schedule tasks using cron expressions.
+- Delete individual tasks or all tasks at once.
+- Easy-to-use API.
 
-Schedules a task to run according to the provided cron expression. `taskFunction` is the function to be executed when the task runs. Returns the scheduled task object.
+## Contributing
 
-### `deleteTask(task)`
-
-Cancels and removes the specified task from the scheduler.
-
-### `deleteAllTask()`
-
-Cancels and removes all tasks from the scheduler.
-
+Contributions are welcome! Please feel free to submit issues and pull requests.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
+```
 
