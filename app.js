@@ -24,3 +24,5 @@ class TaskScheduler {
 
 }
 
+
+module.exports = TaskScheduler;

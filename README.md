@@ -1,20 +1,20 @@
 
-# task-forge
+# task-warp
 
-task-forge is a simple Node.js module for scheduling and managing recurring tasks using the node-schedule library.
+task-warp is a simple Node.js module for scheduling and managing recurring tasks using the node-schedule library.
 
 ## Installation
 
-To install the task-forge module, run the following command:
+To install the task-warp module, run the following command:
 
 ```bash
-npm install task-forge
+npm install task-warp
 ```
 
 ## Usage
 
 ```javascript
-const TaskScheduler = require('task-forge');
+const TaskScheduler = require('task-warp');
 
 // Create an instance of TaskScheduler
 const taskScheduler = new TaskScheduler();
