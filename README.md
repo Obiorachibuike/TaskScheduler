@@ -1,59 +1,46 @@
+# TaskWarp
 
-# task-warp
+TaskWarp is a small Node.js cron scheduler with a clean web dashboard. Schedule recurring jobs, see what is coming up, and review recent runs.
 
-task-warp is a simple Node.js module for scheduling and managing recurring tasks using the node-schedule library.
+## Run the dashboard
 
-## Installation
-
-To install the task-warp module, run the following command:
+Requires Node.js 18 or newer.
 
 ```bash
-npm install task-warp
+npm install
+npm start
 ```
 
-## Usage
+Open [http://localhost:3000](http://localhost:3000). Set `PORT` to change the port. Tasks are held in memory and run only while the Node.js process is online; they are cleared when it restarts. Dashboard-created jobs record a successful scheduled run in the activity feed (they do not execute arbitrary user-supplied code).
 
-```javascript
+## Use as a module
+
+```js
 const TaskScheduler = require('task-warp');
 
-// Create an instance of TaskScheduler
-const taskScheduler = new TaskScheduler();
-
-// Schedule a task to run every minute
-const scheduledTask = taskScheduler.scheduleTask('* * * * *', () => {
+const scheduler = new TaskScheduler();
+const job = scheduler.scheduleTask('*/5 * * * *', () => {
   console.log('Task executed at:', new Date());
-});
+}, { name: 'Five-minute check' });
 
-// Delete a task after 5 minutes
-setTimeout(() => {
-  taskScheduler.deleteTask(scheduledTask);
-  console.log('Task deleted at:', new Date());
-}, 5 * 60 * 1000);
-
-// Schedule another task to run every 5 seconds
-const anotherScheduledTask = taskScheduler.scheduleTask('*/5 * * * * *', () => {
-  console.log('Another task executed at:', new Date());
-});
-
-// Delete all tasks after 1 minute
-setTimeout(() => {
-  taskScheduler.deleteAllTask();
-  console.log('All tasks deleted at:', new Date());
-}, 1 * 60 * 1000);
+// Cancel an individual job by its job object or the supplied id.
+scheduler.deleteTask(job);
+// Or cancel everything at once.
+scheduler.deleteAllTasks();
 ```
 
-## Features
+Cron expressions use the server's local timezone and are interpreted by [node-schedule](https://github.com/node-schedule/node-schedule). You can inspect scheduled work with `scheduler.getTasks()`.
 
-- Schedule tasks using cron expressions.
-- Delete individual tasks or all tasks at once.
-- Easy-to-use API.
+## HTTP API
 
-## Contributing
+- `GET /api/tasks` — list scheduled tasks and recent runs.
+- `POST /api/tasks` — create a task with JSON `{ "name": "Daily report", "cronExpression": "0 9 * * 1-5" }`.
+- `DELETE /api/tasks/:id` — cancel one task.
+- `DELETE /api/tasks` — cancel all tasks.
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+## Development
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```bash
+npm test
+npm start
 ```
-
